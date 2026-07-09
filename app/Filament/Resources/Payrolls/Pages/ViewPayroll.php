@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\Payrolls\Pages;
 
-use App\Filament\Resources\Payrolls\Schemas\PayrollForm;
 use App\Filament\Resources\Payrolls\PayrollResource;
-use App\Models\Payroll;
-use App\Services\CurrencyFormatter;
+use App\Services\PayrollSlipData;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 
 class ViewPayroll extends ViewRecord
@@ -16,18 +16,22 @@ class ViewPayroll extends ViewRecord
 
     protected string $view = 'filament.resources.payrolls.pages.view-payroll';
 
+    protected ?array $slipData = null;
+
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('print')
+                ->label('Print')
+                ->icon(Heroicon::OutlinedPrinter)
+                ->url(fn (): string => route('payrolls.print', $this->getRecord()), shouldOpenInNewTab: true),
             EditAction::make(),
         ];
     }
 
     public function getTitle(): string | Htmlable
     {
-        $employeeName = $this->getRecord()->employee?->full_name;
-
-        return filled($employeeName) ? "Slip Gaji {$employeeName}" : 'Slip Gaji';
+        return $this->getSlipData()['title'];
     }
 
     public function getBreadcrumb(): string
@@ -42,98 +46,41 @@ class ViewPayroll extends ViewRecord
 
     public function getEmployeeInformation(): array
     {
-        $record = $this->getPayrollRecord();
-
-        return [
-            'Nama Karyawan' => $record->employee?->full_name ?? '-',
-            'NIK' => $record->employee?->nik ?? '-',
-            'Jabatan' => $record->employee?->position ?? '-',
-            'Bulan Payroll' => $this->getPayrollMonthLabel(),
-            'Tahun Payroll' => (string) (int) $record->payroll_year,
-        ];
+        return $this->getSlipData()['employee_information'];
     }
 
     public function getPayrollHighlights(): array
     {
-        $record = $this->getPayrollRecord();
-
-        return [
-            'Gaji Pokok' => CurrencyFormatter::rupiah($record->basic_salary),
-            'Total Tunjangan' => CurrencyFormatter::rupiah($record->total_allowance),
-            'Total Potongan' => CurrencyFormatter::rupiah($record->total_deduction),
-            'Take Home Pay' => CurrencyFormatter::rupiah($record->take_home_pay),
-        ];
+        return $this->getSlipData()['highlights'];
     }
 
     public function getAllowanceItems(): array
     {
-        return $this->getPayrollRecord()->items
-            ->where('type', 'allowance')
-            ->map(fn ($item): array => [
-                'name' => $item->name,
-                'amount' => CurrencyFormatter::rupiah($item->amount),
-            ])
-            ->values()
-            ->all();
+        return $this->getSlipData()['allowance_items'];
     }
 
     public function getDeductionItems(): array
     {
-        return $this->getPayrollRecord()->items
-            ->where('type', 'deduction')
-            ->map(fn ($item): array => [
-                'name' => $item->name,
-                'amount' => CurrencyFormatter::rupiah($item->amount),
-            ])
-            ->values()
-            ->all();
+        return $this->getSlipData()['deduction_items'];
     }
 
     public function getSummaryRows(): array
     {
-        $record = $this->getPayrollRecord();
-        $basicSalary = (float) $record->basic_salary;
-        $totalAllowance = (float) $record->total_allowance;
-        $totalDeduction = (float) $record->total_deduction;
-
-        return [
-            [
-                'label' => 'Gaji Pokok',
-                'amount' => CurrencyFormatter::rupiah($basicSalary),
-            ],
-            [
-                'label' => 'Gaji + Tunjangan',
-                'amount' => CurrencyFormatter::rupiah($basicSalary + $totalAllowance),
-            ],
-            [
-                'label' => 'Gaji Setelah Potongan',
-                'amount' => CurrencyFormatter::rupiah($basicSalary - $totalDeduction),
-            ],
-            [
-                'label' => 'Take Home Pay',
-                'amount' => CurrencyFormatter::rupiah($record->take_home_pay),
-                'highlight' => true,
-            ],
-        ];
+        return $this->getSlipData()['summary_rows'];
     }
 
     public function getPayrollMonthLabel(): string
     {
-        $record = $this->getPayrollRecord();
-
-        return PayrollForm::getMonthOptions()[(int) $record->payroll_month] ?? (string) $record->payroll_month;
+        return $this->getSlipData()['payroll_month_label'];
     }
 
     public function getGeneratedAtLabel(): string
     {
-        return $this->getPayrollRecord()->generated_at?->format('d/m/Y H:i:s') ?? '-';
+        return $this->getSlipData()['generated_at_label'];
     }
 
-    protected function getPayrollRecord(): Payroll
+    protected function getSlipData(): array
     {
-        /** @var Payroll $record */
-        $record = $this->getRecord()->loadMissing(['employee', 'items']);
-
-        return $record;
+        return $this->slipData ??= app(PayrollSlipData::class)->build($this->getRecord());
     }
 }
