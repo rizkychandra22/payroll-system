@@ -18,6 +18,9 @@ class ListPayrolls extends ListRecords
             Action::make('generatePayroll')
                 ->label('Generate Payroll')
                 ->url(PayrollResource::getUrl('generate')),
+            Action::make('printPayroll')
+                ->label('Print Payroll')
+                ->url(PayrollResource::getUrl('print')),
         ];
     }
 }

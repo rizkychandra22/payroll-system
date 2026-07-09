@@ -6,6 +6,7 @@ use App\Filament\Resources\Payrolls\Pages\CreatePayroll;
 use App\Filament\Resources\Payrolls\Pages\EditPayroll;
 use App\Filament\Resources\Payrolls\Pages\GeneratePayroll;
 use App\Filament\Resources\Payrolls\Pages\ListPayrolls;
+use App\Filament\Resources\Payrolls\Pages\PrintPayrollHistory;
 use App\Filament\Resources\Payrolls\Pages\ViewPayroll;
 use App\Filament\Resources\Payrolls\Schemas\PayrollInfolist;
 use App\Filament\Resources\Payrolls\Schemas\PayrollForm;
@@ -75,6 +76,7 @@ class PayrollResource extends Resource
             'index' => ListPayrolls::route('/'),
             'create' => CreatePayroll::route('/create'),
             'generate' => GeneratePayroll::route('/generate'),
+            'print' => PrintPayrollHistory::route('/print'),
             'view' => ViewPayroll::route('/{record}/details'),
             'edit' => EditPayroll::route('/{record}/edit'),
         ];
