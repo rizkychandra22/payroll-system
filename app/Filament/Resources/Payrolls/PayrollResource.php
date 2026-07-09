@@ -6,6 +6,8 @@ use App\Filament\Resources\Payrolls\Pages\CreatePayroll;
 use App\Filament\Resources\Payrolls\Pages\EditPayroll;
 use App\Filament\Resources\Payrolls\Pages\GeneratePayroll;
 use App\Filament\Resources\Payrolls\Pages\ListPayrolls;
+use App\Filament\Resources\Payrolls\Pages\ViewPayroll;
+use App\Filament\Resources\Payrolls\Schemas\PayrollInfolist;
 use App\Filament\Resources\Payrolls\Schemas\PayrollForm;
 use App\Filament\Resources\Payrolls\Tables\PayrollsTable;
 use App\Models\Payroll;
@@ -38,6 +40,11 @@ class PayrollResource extends Resource
         return PayrollForm::configure($schema);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return PayrollInfolist::configure($schema);
+    }
+
     public static function table(Table $table): Table
     {
         return PayrollsTable::configure($table);
@@ -56,6 +63,7 @@ class PayrollResource extends Resource
             'index' => ListPayrolls::route('/'),
             'create' => CreatePayroll::route('/create'),
             'generate' => GeneratePayroll::route('/generate'),
+            'view' => ViewPayroll::route('/{record}/details'),
             'edit' => EditPayroll::route('/{record}/edit'),
         ];
     }
