@@ -33,8 +33,6 @@ class PayrollResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
 
-    protected static ?string $recordTitleAttribute = 'employee_id';
-
     public static function form(Schema $schema): Schema
     {
         return PayrollForm::configure($schema);
@@ -55,6 +53,20 @@ class PayrollResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordTitle(?\Illuminate\Database\Eloquent\Model $record): string | \Illuminate\Contracts\Support\Htmlable | null
+    {
+        if (! $record instanceof Payroll) {
+            return parent::getRecordTitle($record);
+        }
+
+        return $record->employee?->full_name ?? 'Payroll Detail';
+    }
+
+    public static function hasRecordTitle(): bool
+    {
+        return true;
     }
 
     public static function getPages(): array
