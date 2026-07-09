@@ -10,6 +10,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PayrollsTable
 {
@@ -20,11 +21,19 @@ class PayrollsTable
                 TextColumn::make('employee.full_name')
                     ->label('Employee')
                     ->description(fn (Payroll $record): ?string => $record->employee?->nik)
-                    ->searchable(['employee.full_name', 'employee.nik'])
+                    ->searchable(
+                        query: function (Builder $query, string $search): Builder {
+                            return $query->whereHas('employee', function (Builder $employeeQuery) use ($search): Builder {
+                                return $employeeQuery
+                                    ->where('full_name', 'like', "%{$search}%")
+                                    ->orWhere('nik', 'like', "%{$search}%")
+                                    ->orWhere('position', 'like', "%{$search}%");
+                            });
+                        },
+                    )
                     ->sortable(),
                 TextColumn::make('employee.position')
                     ->label('Position')
-                    ->searchable(['employee.position'])
                     ->sortable(),
                 TextColumn::make('payroll_month')
                     ->label('Payroll Month')
