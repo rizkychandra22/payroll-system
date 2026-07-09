@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Employees\Tables;
 
+use App\Services\CurrencyFormatter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -22,7 +23,7 @@ class EmployeesTable
                 TextColumn::make('position')
                     ->searchable(),
                 TextColumn::make('basic_salary')
-                    ->numeric()
+                    ->state(fn ($record): string => CurrencyFormatter::rupiah($record->basic_salary))
                     ->sortable(),
                 TextColumn::make('join_date')
                     ->date()

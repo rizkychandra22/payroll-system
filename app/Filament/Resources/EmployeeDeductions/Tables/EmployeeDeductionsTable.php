@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EmployeeDeductions\Tables;
 
 use App\Models\Employee;
+use App\Services\CurrencyFormatter;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -25,7 +26,7 @@ class EmployeeDeductionsTable
                     ->sortable(),
                 TextColumn::make('basic_salary')
                     ->label('Basic Salary')
-                    ->state(fn (Employee $record): string => static::formatCurrency($record->basic_salary))
+                    ->state(fn (Employee $record): string => CurrencyFormatter::rupiah($record->basic_salary))
                     ->sortable(),
                 TextColumn::make('deduction_details')
                     ->label('Deductions')
@@ -33,7 +34,7 @@ class EmployeeDeductionsTable
                     ->listWithLineBreaks(),
                 TextColumn::make('deduction_total')
                     ->label('Total Amount')
-                    ->state(fn (Employee $record): string => static::formatCurrency($record->deductions->sum('amount'))),
+                    ->state(fn (Employee $record): string => CurrencyFormatter::rupiah($record->deductions->sum('amount'))),
             ])
             ->filters([
                 //
@@ -54,12 +55,7 @@ class EmployeeDeductionsTable
         }
 
         return $record->deductions
-            ->map(fn ($deduction): string => "{$deduction->name}: " . static::formatCurrency($deduction->amount))
+            ->map(fn ($deduction): string => "{$deduction->name}: " . CurrencyFormatter::rupiah($deduction->amount))
             ->all();
-    }
-
-    protected static function formatCurrency(float | int | string | null $amount): string
-    {
-        return 'Rp' . number_format((float) $amount, 0, ',', '.');
     }
 }

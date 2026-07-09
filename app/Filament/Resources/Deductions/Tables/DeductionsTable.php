@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Deductions\Tables;
 
+use App\Services\CurrencyFormatter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -18,7 +19,7 @@ class DeductionsTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->numeric()
+                    ->state(fn ($record): string => CurrencyFormatter::rupiah($record->amount))
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

@@ -15,7 +15,7 @@ class PayrollCalculator
             ->orderBy('name')
             ->get()
             ->mapWithKeys(fn (Allowance $allowance): array => [
-                $allowance->id => "{$allowance->name} - Rp " . number_format((float) $allowance->amount, 0, ',', '.'),
+                $allowance->id => "{$allowance->name} - " . CurrencyFormatter::rupiah($allowance->amount),
             ])
             ->toArray();
     }
@@ -26,7 +26,7 @@ class PayrollCalculator
             ->orderBy('name')
             ->get()
             ->mapWithKeys(fn (Deduction $deduction): array => [
-                $deduction->id => "{$deduction->name} - Rp " . number_format((float) $deduction->amount, 0, ',', '.'),
+                $deduction->id => "{$deduction->name} - " . CurrencyFormatter::rupiah($deduction->amount),
             ])
             ->toArray();
     }
@@ -213,9 +213,7 @@ class PayrollCalculator
 
         return collect($benefits)
             ->map(function (object $benefit): string {
-                $amount = number_format((float) $benefit->amount, 0, ',', '.');
-
-                return "{$benefit->name} (Rp {$amount})";
+                return "{$benefit->name} (" . CurrencyFormatter::rupiah($benefit->amount) . ')';
             })
             ->implode("\n");
     }

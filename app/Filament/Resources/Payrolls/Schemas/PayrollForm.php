@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Payrolls\Schemas;
 
 use App\Models\Employee;
 use App\Services\PayrollCalculator;
+use App\Services\CurrencyFormatter;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -35,13 +36,13 @@ class PayrollForm
                     ->afterStateUpdated(function (Set $set, int | string | null $state): void {
                         $defaults = app(PayrollCalculator::class)->getEmployeeDefaults($state);
 
-                        $set('basic_salary', $defaults['basic_salary']);
+                        $set('basic_salary', CurrencyFormatter::rupiah($defaults['basic_salary']));
                         $set('position', $defaults['position']);
                         $set('allowance_ids', $defaults['allowance_ids']);
                         $set('deduction_ids', $defaults['deduction_ids']);
-                        $set('total_allowance', $defaults['total_allowance']);
-                        $set('total_deduction', $defaults['total_deduction']);
-                        $set('take_home_pay', $defaults['take_home_pay']);
+                        $set('total_allowance', CurrencyFormatter::rupiah($defaults['total_allowance']));
+                        $set('total_deduction', CurrencyFormatter::rupiah($defaults['total_deduction']));
+                        $set('take_home_pay', CurrencyFormatter::rupiah($defaults['take_home_pay']));
                     })
                     ->required(),
 
@@ -76,8 +77,8 @@ class PayrollForm
 
                         TextInput::make('total_allowance')
                             ->label('Total Allowance')
-                            ->prefix('Rp')
                             ->default(0)
+                            ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),
@@ -94,8 +95,8 @@ class PayrollForm
 
                         TextInput::make('total_deduction')
                             ->label('Total Deduction')
-                            ->prefix('Rp')
                             ->default(0)
+                            ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),
@@ -104,9 +105,9 @@ class PayrollForm
                     ->schema([
                         TextInput::make('basic_salary')
                             ->label('Basic Salary')
-                            ->prefix('Rp')
                             ->readOnly()
                             ->default(0)
+                            ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->required(),
                     ]),
 
@@ -114,8 +115,8 @@ class PayrollForm
                     ->schema([
                         TextInput::make('take_home_pay')
                             ->label('Take Home Pay')
-                            ->prefix('Rp')
                             ->default(0)
+                            ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),

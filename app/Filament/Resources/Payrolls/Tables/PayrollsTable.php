@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Payrolls\Tables;
 
 use App\Models\Payroll;
+use App\Services\CurrencyFormatter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -35,19 +36,19 @@ class PayrollsTable
                     ->sortable(),
                 TextColumn::make('basic_salary')
                     ->label('Basic Salary')
-                    ->numeric()
+                    ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->basic_salary))
                     ->sortable(),
                 TextColumn::make('total_allowance')
                     ->label('Total Allowance')
-                    ->numeric()
+                    ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->total_allowance))
                     ->sortable(),
                 TextColumn::make('total_deduction')
                     ->label('Total Deduction')
-                    ->numeric()
+                    ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->total_deduction))
                     ->sortable(),
                 TextColumn::make('take_home_pay')
                     ->label('Take Home Pay')
-                    ->numeric()
+                    ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->take_home_pay))
                     ->sortable(),
                 TextColumn::make('generated_at')
                     ->label('Generated At')

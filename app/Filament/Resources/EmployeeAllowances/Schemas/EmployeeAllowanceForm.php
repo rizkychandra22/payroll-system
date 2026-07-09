@@ -4,6 +4,7 @@ namespace App\Filament\Resources\EmployeeAllowances\Schemas;
 
 use App\Models\Allowance;
 use App\Models\Employee;
+use App\Services\CurrencyFormatter;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -30,9 +31,9 @@ class EmployeeAllowanceForm
                     ->schema([
                         TextInput::make('basic_salary')
                             ->label('Basic Salary')
-                            ->prefix('Rp')
                             ->readOnly()
                             ->dehydrated(false)
+                            ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->required(),
                     ]),
                     
@@ -58,7 +59,7 @@ class EmployeeAllowanceForm
                                 $set('full_name', $employee?->full_name ?? '');
                                 $set('nik', $employee?->nik ?? '');
                                 $set('position', $employee?->position ?? '');
-                                $set('basic_salary', $employee?->basic_salary ?? 0);
+                                $set('basic_salary', CurrencyFormatter::rupiah($employee?->basic_salary ?? 0));
                             })
                             ->required()
                             ->visibleOn('create'),
@@ -79,9 +80,7 @@ class EmployeeAllowanceForm
                         CheckboxList::make('allowances')
                             ->relationship('allowances')
                             ->getOptionLabelFromRecordUsing(function (Allowance $record): string {
-                                $amount = number_format((float) $record->amount, 0, ',', '.');
-
-                                return "{$record->name} - Rp {$amount}";
+                                return "{$record->name} - " . CurrencyFormatter::rupiah($record->amount);
                             })
                             ->columns(1)
                             ->bulkToggleable(),
