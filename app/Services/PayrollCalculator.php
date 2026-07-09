@@ -33,15 +33,25 @@ class PayrollCalculator
 
     public function getEmployeeDefaults(int | string | null $employeeId): array
     {
-        $employee = Employee::query()->find($employeeId);
+        $employee = Employee::query()
+            ->with([
+                'allowances:id,name,amount',
+                'deductions:id,name,amount',
+            ])
+            ->find($employeeId);
+
         $basicSalary = (float) ($employee?->basic_salary ?? 0);
+        $allowanceIds = $employee?->allowances->modelKeys() ?? [];
+        $deductionIds = $employee?->deductions->modelKeys() ?? [];
 
         return [
             'position' => $employee?->position ?? '',
             'basic_salary' => $basicSalary,
-            'allowance_ids' => [],
-            'deduction_ids' => [],
-            ...$this->calculate($basicSalary, [], []),
+            'allowance_summary' => $this->formatBenefitSummary($employee?->allowances?->all() ?? []),
+            'deduction_summary' => $this->formatBenefitSummary($employee?->deductions?->all() ?? []),
+            'allowance_ids' => $allowanceIds,
+            'deduction_ids' => $deductionIds,
+            ...$this->calculate($basicSalary, $allowanceIds, $deductionIds),
         ];
     }
 
@@ -80,6 +90,18 @@ class PayrollCalculator
         return [
             'basic_salary' => $basicSalary,
             ...$this->calculate($basicSalary, $allowanceIds, $deductionIds),
+        ];
+    }
+
+    public function getEmployeeBenefitIds(int | string $employeeId): array
+    {
+        $employee = Employee::query()
+            ->with(['allowances:id', 'deductions:id'])
+            ->findOrFail($employeeId);
+
+        return [
+            'allowance_ids' => $employee->allowances->modelKeys(),
+            'deduction_ids' => $employee->deductions->modelKeys(),
         ];
     }
 
@@ -144,6 +166,24 @@ class PayrollCalculator
         ];
     }
 
+    public function getPayrollBenefitSummary(Payroll $payroll): array
+    {
+        $payroll->loadMissing('items');
+
+        $allowanceItems = $payroll->items
+            ->where('type', 'allowance')
+            ->values();
+
+        $deductionItems = $payroll->items
+            ->where('type', 'deduction')
+            ->values();
+
+        return [
+            'allowance_summary' => $this->formatBenefitSummary($allowanceItems->all()),
+            'deduction_summary' => $this->formatBenefitSummary($deductionItems->all()),
+        ];
+    }
+
     public function normalizeIds(array $ids): array
     {
         return array_values(array_filter(array_map(
@@ -163,5 +203,20 @@ class PayrollCalculator
         }
 
         return (float) preg_replace('/[^\d.-]/', '', $amount);
+    }
+
+    protected function formatBenefitSummary(array $benefits): string
+    {
+        if ($benefits === []) {
+            return '-';
+        }
+
+        return collect($benefits)
+            ->map(function (object $benefit): string {
+                $amount = number_format((float) $benefit->amount, 0, ',', '.');
+
+                return "{$benefit->name} (Rp {$amount})";
+            })
+            ->implode("\n");
     }
 }

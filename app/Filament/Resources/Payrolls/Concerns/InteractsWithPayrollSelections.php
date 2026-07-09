@@ -12,8 +12,9 @@ trait InteractsWithPayrollSelections
 
     protected function preparePayrollDataForPersistence(array $data): array
     {
-        $allowanceIds = $this->getPayrollCalculator()->normalizeIds($data['allowance_ids'] ?? []);
-        $deductionIds = $this->getPayrollCalculator()->normalizeIds($data['deduction_ids'] ?? []);
+        $employeeBenefitIds = $this->getPayrollCalculator()->getEmployeeBenefitIds($data['employee_id']);
+        $allowanceIds = $this->getPayrollCalculator()->normalizeIds($employeeBenefitIds['allowance_ids']);
+        $deductionIds = $this->getPayrollCalculator()->normalizeIds($employeeBenefitIds['deduction_ids']);
         $snapshot = $this->getPayrollCalculator()->buildSnapshotData(
             employeeId: $data['employee_id'],
             allowanceIds: $allowanceIds,
@@ -23,7 +24,7 @@ trait InteractsWithPayrollSelections
         $this->selectedAllowanceIds = $allowanceIds;
         $this->selectedDeductionIds = $deductionIds;
 
-        unset($data['allowance_ids'], $data['deduction_ids']);
+        unset($data['allowance_ids'], $data['deduction_ids'], $data['allowance_summary'], $data['deduction_summary']);
 
         return [
             ...$data,

@@ -9,7 +9,6 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
@@ -71,11 +70,9 @@ class PayrollForm
                             ->label('Allowance')
                             ->options(app(PayrollCalculator::class)->getAllowanceOptions())
                             ->columns(1)
-                            ->disabled(fn (Get $get): bool => blank($get('employee_id')))
-                            ->live()
-                            ->afterStateUpdated(function (Get $get, Set $set): void {
-                                static::syncCalculatedFields($get, $set);
-                            }),
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->bulkToggleable(false),
 
                         TextInput::make('total_allowance')
                             ->label('Total Allowance')
@@ -91,11 +88,9 @@ class PayrollForm
                             ->label('Deduction')
                             ->options(app(PayrollCalculator::class)->getDeductionOptions())
                             ->columns(1)
-                            ->disabled(fn (Get $get): bool => blank($get('employee_id')))
-                            ->live()
-                            ->afterStateUpdated(function (Get $get, Set $set): void {
-                                static::syncCalculatedFields($get, $set);
-                            }),
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->bulkToggleable(false),
 
                         TextInput::make('total_deduction')
                             ->label('Total Deduction')
@@ -131,19 +126,6 @@ class PayrollForm
                     ->required()
                     ->hidden(),
             ]);
-    }
-
-    protected static function syncCalculatedFields(Get $get, Set $set): void
-    {
-        $totals = app(PayrollCalculator::class)->calculate(
-            basicSalary: $get('basic_salary'),
-            allowanceIds: $get('allowance_ids') ?? [],
-            deductionIds: $get('deduction_ids') ?? [],
-        );
-
-        $set('total_allowance', $totals['total_allowance']);
-        $set('total_deduction', $totals['total_deduction']);
-        $set('take_home_pay', $totals['take_home_pay']);
     }
 
     protected static function getMonthOptions(): array
