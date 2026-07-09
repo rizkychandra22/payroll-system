@@ -43,7 +43,7 @@ Take Home Pay = Basic Salary + Total Allowance - Total Deduction
 
 Seeder user admin sudah tersedia dan akan dibuat saat menjalankan seeder:
 
-- URL login: `http://127.0.0.1:8000/admin/login`
+- URL login: `https://payroll-system.laravel.cloud/admin/login`
 - Email: `test@example.com`
 - Password: `password`
 
@@ -51,7 +51,7 @@ Seeder user admin sudah tersedia dan akan dibuat saat menjalankan seeder:
 
 Project ini sudah memiliki sample data untuk mempermudah review:
 
-- 5 data karyawan
+- 50 data karyawan
 - 3 master tunjangan
 - 3 master potongan
 - relasi tunjangan dan potongan per karyawan
