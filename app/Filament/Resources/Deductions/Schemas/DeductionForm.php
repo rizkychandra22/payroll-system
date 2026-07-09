@@ -12,12 +12,12 @@ class DeductionForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
+                TextInput::make('name')->label('Nama')
                     ->required(),
-                TextInput::make('amount')
+                TextInput::make('amount')->label('Jumlah')
                     ->required()
                     ->numeric(),
-                Textarea::make('description')
+                Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
             ]);
     }

@@ -19,13 +19,13 @@ class EmployeeDeductionResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Employee Deductions';
+    protected static ?string $navigationLabel = 'Potongan Karyawan';
 
-    protected static ?string $modelLabel = 'Employee Deduction';
+    protected static ?string $modelLabel = 'Potongan Karyawan';
 
-    protected static ?string $pluralModelLabel = 'Employee Deductions';
+    protected static ?string $pluralModelLabel = 'Potongan Karyawan';
 
     protected static ?int $navigationSort = 5;
 

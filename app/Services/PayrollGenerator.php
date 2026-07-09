@@ -24,10 +24,9 @@ class PayrollGenerator
             ->get()
             ->mapWithKeys(fn (Employee $employee): array => [
                 $employee->position => sprintf(
-                    '%s (%d %s)',
+                    '%s (%d karyawan)',
                     $employee->position,
                     $employee->employee_count,
-                    Str::plural('employee', (int) $employee->employee_count),
                 ),
             ])
             ->toArray();

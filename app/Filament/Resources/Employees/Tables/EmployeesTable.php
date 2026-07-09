@@ -16,23 +16,23 @@ class EmployeesTable
     {
         return $table
             ->columns([
-                TextColumn::make('full_name')
+                TextColumn::make('full_name')->label('Nama Lengkap')
                     ->searchable(),
-                TextColumn::make('nik')
+                TextColumn::make('nik')->label('NIK')
                     ->searchable(),
-                TextColumn::make('position')
+                TextColumn::make('position')->label('Jabatan')
                     ->searchable(),
-                TextColumn::make('basic_salary')
+                TextColumn::make('basic_salary')->label('Gaji Pokok')
                     ->state(fn ($record): string => CurrencyFormatter::rupiah($record->basic_salary))
                     ->sortable(),
-                TextColumn::make('join_date')
+                TextColumn::make('join_date')->label('Tanggal Bergabung')
                     ->date()
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diubah Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

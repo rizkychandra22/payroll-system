@@ -14,27 +14,24 @@ class PrintPayrollHistoryForm
     {
         return $schema
             ->components([
-                Section::make('Payroll Period')
+                Section::make('Periode Penggajian')
                     ->schema([
-                        Select::make('payroll_month')
-                            ->label('Payroll Month')
+                        Select::make('payroll_month')->label('Bulan')
                             ->options(PayrollForm::getMonthOptions())
                             ->default((int) now()->format('n'))
                             ->required(),
 
-                        Select::make('payroll_year')
-                            ->label('Payroll Year')
+                        Select::make('payroll_year')->label('Tahun')
                             ->options(PayrollForm::getYearOptions())
                             ->default((int) now()->format('Y'))
                             ->required(),
                     ])
                     ->columns(2),
 
-                Section::make('Positions')
-                    ->description('Pilih jabatan yang payroll history-nya ingin ditampilkan pada PDF.')
+                Section::make('Jabatan')
+                    ->description('Pilih jabatan yang riwayat penggajian-nya ingin dicetak sebagai PDF.')
                     ->schema([
-                        CheckboxList::make('positions')
-                            ->label('Employee Positions')
+                        CheckboxList::make('positions')->label('Jabatan')
                             ->options(app(PayrollGenerator::class)->getPositionOptions())
                             ->columns(2)
                             ->bulkToggleable()

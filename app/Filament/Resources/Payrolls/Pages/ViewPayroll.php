@@ -21,8 +21,7 @@ class ViewPayroll extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('print')
-                ->label('Print')
+            Action::make('print')->label('Cetak Slip Gaji')
                 ->icon(Heroicon::OutlinedPrinter)
                 ->url(fn (): string => route('payrolls.print', $this->getRecord()), shouldOpenInNewTab: true),
             EditAction::make(),
@@ -41,7 +40,7 @@ class ViewPayroll extends ViewRecord
 
     public function getSubheading(): string | Htmlable | null
     {
-        return 'Detail payroll historis karyawan dengan rincian tunjangan, potongan, dan take home pay.';
+        return 'Detail riwayat penggajian karyawan dengan rincian tunjangan, potongan, dan gaji bersih.';
     }
 
     public function getEmployeeInformation(): array

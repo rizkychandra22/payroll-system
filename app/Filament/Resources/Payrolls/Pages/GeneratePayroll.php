@@ -53,17 +53,17 @@ class GeneratePayroll extends Page
 
     public function getBreadcrumb(): string
     {
-        return 'Generate Payroll';
+        return 'Generate Slip Gaji';
     }
 
     public function getTitle(): string | Htmlable
     {
-        return 'Generate Payroll';
+        return 'Generate Slip Gaji';
     }
 
     public function getSubheading(): string | Htmlable | null
     {
-        return 'Generate payroll massal berdasarkan position untuk bulan dan tahun tertentu.';
+        return 'Generate slip gaji massal berdasarkan jabatan untuk bulan dan tahun tertentu.';
     }
 
     public function defaultForm(Schema $schema): Schema
@@ -132,8 +132,7 @@ class GeneratePayroll extends Page
     protected function getFormActions(): array
     {
         return [
-            Action::make('generate')
-                ->label('Generate Payroll')
+            Action::make('generate')->label('Buat Penggajian')
                 ->submit('generate'),
             Action::make('cancel')
                 ->label('Cancel')

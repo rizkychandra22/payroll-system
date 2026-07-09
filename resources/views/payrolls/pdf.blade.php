@@ -229,7 +229,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="meta-label">Generated:</td>
+                            <td class="meta-label">Dibuat pada:</td>
                             <td class="meta-value">{{ $slip['generated_at_label'] }}</td>
                         </tr>
                     </table>
@@ -263,7 +263,7 @@
                         <td class="text-right money">{{ $slip['highlights']['Total Potongan'] }}</td>
                     </tr>
                     <tr>
-                        <td>Take Home Pay</td>
+                        <td>Gaji Bersih</td>
                         <td class="text-center">Final</td>
                         <td class="text-right money">{{ $slip['highlights']['Take Home Pay'] }}</td>
                     </tr>
@@ -326,9 +326,9 @@
         </div>
 
         <div class="summary-block">
-            <h2 class="summary-heading">Ringkasan Payroll</h2>
+            <h2 class="summary-heading">Ringkasan Penggajian</h2>
             <p class="summary-note">
-                Take Home Pay = gaji pokok + total tunjangan - total potongan.
+                Gaji Bersih = gaji pokok + total tunjangan - total potongan.
             </p>
 
             <table class="summary-table">
@@ -343,7 +343,7 @@
             </table>
         </div>
 
-        <div class="closing">Dokumen slip gaji ini dihasilkan oleh sistem payroll.</div>
+        <div class="closing">Dokumen slip gaji ini dihasilkan oleh payroll system.</div>
     </div>
 </body>
 </html>

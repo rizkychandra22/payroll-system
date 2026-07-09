@@ -16,10 +16,10 @@ class ListPayrolls extends ListRecords
         return [
             CreateAction::make(),
             Action::make('generatePayroll')
-                ->label('Generate Payroll')
+                ->label('Generate Slip Gaji')
                 ->url(PayrollResource::getUrl('generate')),
             Action::make('printPayroll')
-                ->label('Print Payroll')
+                ->label('Cetak Slip Gaji')
                 ->url(PayrollResource::getUrl('print')),
         ];
     }

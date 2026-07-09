@@ -8,7 +8,6 @@ use App\Filament\Resources\Payrolls\Pages\GeneratePayroll;
 use App\Filament\Resources\Payrolls\Pages\ListPayrolls;
 use App\Filament\Resources\Payrolls\Pages\PrintPayrollHistory;
 use App\Filament\Resources\Payrolls\Pages\ViewPayroll;
-use App\Filament\Resources\Payrolls\Schemas\PayrollInfolist;
 use App\Filament\Resources\Payrolls\Schemas\PayrollForm;
 use App\Filament\Resources\Payrolls\Tables\PayrollsTable;
 use App\Models\Payroll;
@@ -22,13 +21,13 @@ class PayrollResource extends Resource
 {
     protected static ?string $model = Payroll::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Payroll';
+    protected static string | \UnitEnum | null $navigationGroup = 'Penggajian';
 
-    protected static ?string $navigationLabel = 'Payroll History';
+    protected static ?string $navigationLabel = 'Riwayat Penggajian';
 
-    protected static ?string $modelLabel = 'Payroll';
+    protected static ?string $modelLabel = 'Slip Gaji';
 
-    protected static ?string $pluralModelLabel = 'Payroll History';
+    protected static ?string $pluralModelLabel = 'Riwayat Penggajian';
 
     protected static ?int $navigationSort = 1;
 
@@ -37,11 +36,6 @@ class PayrollResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return PayrollForm::configure($schema);
-    }
-
-    public static function infolist(Schema $schema): Schema
-    {
-        return PayrollInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

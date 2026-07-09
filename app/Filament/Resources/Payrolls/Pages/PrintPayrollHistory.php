@@ -41,17 +41,17 @@ class PrintPayrollHistory extends Page
 
     public function getBreadcrumb(): string
     {
-        return 'Print Payroll';
+        return 'Cetak Slip Gaji';
     }
 
     public function getTitle(): string | Htmlable
     {
-        return 'Print Payroll';
+        return 'Cetak Slip Gaji';
     }
 
     public function getSubheading(): string | Htmlable | null
     {
-        return 'Pilih bulan, tahun, dan position yang ingin dicetak ke PDF.';
+        return 'Pilih bulan, tahun, dan jabatan yang ingin dicetak ke PDF.';
     }
 
     public function defaultForm(Schema $schema): Schema

@@ -18,13 +18,13 @@ class DeductionResource extends Resource
 {
     protected static ?string $model = Deduction::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Deductions';
+    protected static ?string $navigationLabel = 'Potongan';
 
-    protected static ?string $modelLabel = 'Deduction';
+    protected static ?string $modelLabel = 'Potongan';
 
-    protected static ?string $pluralModelLabel = 'Deductions';
+    protected static ?string $pluralModelLabel = 'Potongan';
 
     protected static ?int $navigationSort = 3;
 

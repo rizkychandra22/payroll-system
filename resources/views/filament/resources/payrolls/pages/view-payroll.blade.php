@@ -30,7 +30,7 @@
                                     {{ $employeeInformation['Jabatan'] }}
                                 </span>
                                 <span>
-                                    Payroll {{ $employeeInformation['Bulan Payroll'] }} {{ $employeeInformation['Tahun Payroll'] }}
+                                    Gaji {{ $employeeInformation['Bulan Payroll'] }} {{ $employeeInformation['Tahun Payroll'] }}
                                 </span>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                     <div class="grid gap-3 sm:grid-cols-2 lg:min-w-[26rem]">
                         <div class="rounded-[1.5rem] bg-slate-900 px-5 py-5 text-white shadow-xl dark:bg-gradient-to-br dark:from-amber-400 dark:via-orange-400 dark:to-rose-500 dark:text-slate-950">
                             <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-900/70">
-                                Take Home Pay
+                                Gaji Bersih
                             </p>
 
                             <p class="mt-3 text-3xl font-semibold tracking-tight text-white dark:text-slate-950">
@@ -47,14 +47,13 @@
                             </p>
 
                             <p class="mt-3 text-sm text-slate-300 dark:text-slate-900/80">
-                                Basic salary + total tunjangan - total potongan
+                                Gaji Pokok + Total Tunjangan - Total Potongan
                             </p>
                         </div>
 
                         <div class="rounded-[1.5rem] border border-stone-200 bg-white px-5 py-5 shadow-sm dark:border-white/10 dark:bg-slate-900/80">
                             <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-                                Generated At
-                            </p>
+                                Dibuat pada
 
                             <p class="mt-3 text-lg font-semibold text-slate-900 dark:text-white">
                                 {{ $this->getGeneratedAtLabel() }}
@@ -75,7 +74,7 @@
                             <div class="flex items-center justify-between gap-4">
                                 <div>
                                     <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-                                        Informasi Payroll
+                                        Informasi Penggajian
                                     </p>
                                     <h3 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                         Detail Karyawan
@@ -83,7 +82,7 @@
                                 </div>
 
                                 <div class="hidden rounded-full bg-slate-100 px-4 py-2 text-xs font-medium text-slate-600 dark:bg-white/5 dark:text-slate-300 sm:block">
-                                    Payroll {{ $employeeInformation['Bulan Payroll'] }} {{ $employeeInformation['Tahun Payroll'] }}
+                                    Gaji {{ $employeeInformation['Bulan Payroll'] }} {{ $employeeInformation['Tahun Payroll'] }}
                                 </div>
                             </div>
 
@@ -121,7 +120,7 @@
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-amber-300/80">
-                                    Ringkasan Payroll
+                                    Ringkasan Penggajian
                                 </p>
 
                                 <h3 class="mt-2 text-2xl font-semibold tracking-tight text-white">
@@ -130,7 +129,7 @@
                             </div>
 
                             <div class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-slate-300 dark:border-white/10 dark:bg-white/5">
-                                Final Summary
+                                Ringkasan Akhir
                             </div>
                         </div>
 

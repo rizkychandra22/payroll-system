@@ -12,16 +12,16 @@ class EmployeeForm
     {
         return $schema
             ->components([
-                TextInput::make('full_name')
+                TextInput::make('full_name')->label('Nama Lengkap')
                     ->required(),
-                TextInput::make('nik')
+                TextInput::make('nik')->label('NIK')
                     ->required(),
-                TextInput::make('position')
+                TextInput::make('position')->label('Jabatan')
                     ->required(),
-                TextInput::make('basic_salary')
+                TextInput::make('basic_salary')->label('Gaji Pokok')
                     ->required()
                     ->numeric(),
-                DatePicker::make('join_date')
+                DatePicker::make('join_date')->label('Tanggal Bergabung')
                     ->required(),
             ]);
     }

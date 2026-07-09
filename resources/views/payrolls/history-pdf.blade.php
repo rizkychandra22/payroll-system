@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Payroll History</title>
+    <title>Riwayat Penggajian</title>
     <style>
         @page {
             size: A4 landscape;
@@ -287,6 +287,6 @@
         </tbody>
     </table>
 
-    <div class="footer">Dokumen payroll history ini dihasilkan oleh sistem payroll.</div>
+    <div class="footer">Dokumen payroll history ini dihasilkan oleh payroll system.</div>
 </body>
 </html>

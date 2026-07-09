@@ -19,8 +19,7 @@ class PayrollsTable
     {
         return $table
             ->columns([
-                TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                TextColumn::make('employee.full_name')->label('Nama Karyawan')
                     ->description(fn (Payroll $record): ?string => $record->employee?->nik)
                     ->searchable(
                         query: function (Builder $query, string $search): Builder {
@@ -33,42 +32,34 @@ class PayrollsTable
                         },
                     )
                     ->sortable(),
-                TextColumn::make('employee.position')
-                    ->label('Position')
+                TextColumn::make('employee.position')->label('Jabatan')
                     ->sortable(),
-                TextColumn::make('payroll_month')
-                    ->label('Payroll Month')
+                TextColumn::make('payroll_month')->label('Bulan')
                     ->formatStateUsing(fn (int | string | null $state): ?string => static::getMonthLabel($state))
                     ->sortable(),
-                TextColumn::make('payroll_year')
-                    ->label('Payroll Year')
+                TextColumn::make('payroll_year')->label('Tahun')
                     ->formatStateUsing(fn (int | string | null $state): ?string => filled($state) ? (string) (int) $state : null)
                     ->sortable(),
-                TextColumn::make('basic_salary')
-                    ->label('Basic Salary')
+                TextColumn::make('basic_salary')->label('Gaji Pokok')
                     ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->basic_salary))
                     ->sortable(),
-                TextColumn::make('total_allowance')
-                    ->label('Total Allowance')
+                TextColumn::make('total_allowance')->label('Total Tunjangan')
                     ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->total_allowance))
                     ->sortable(),
-                TextColumn::make('total_deduction')
-                    ->label('Total Deduction')
+                TextColumn::make('total_deduction')->label('Total Potongan')
                     ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->total_deduction))
                     ->sortable(),
-                TextColumn::make('take_home_pay')
-                    ->label('Take Home Pay')
+                TextColumn::make('take_home_pay')->label('Gaji Bersih')
                     ->state(fn (Payroll $record): string => CurrencyFormatter::rupiah($record->take_home_pay))
                     ->sortable(),
-                TextColumn::make('generated_at')
-                    ->label('Generated At')
+                TextColumn::make('generated_at')->label('Dibuat Pada')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diubah Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

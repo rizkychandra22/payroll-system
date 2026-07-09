@@ -18,29 +18,26 @@ class EmployeeDeductionForm
     {
         return $schema
             ->components([
-                Section::make('Employee Position')
+                Section::make('Jabatan Karyawan')
                     ->schema([
-                        TextInput::make('position')
-                            ->label('Position')
+                        TextInput::make('position')->label('Jabatan')
                             ->readOnly()
                             ->dehydrated(false)
                             ->required(),
                     ]),
 
-                Section::make('Employee Basic Salary')
+                Section::make('Gaji Pokok Karyawan')
                     ->schema([
-                        TextInput::make('basic_salary')
-                            ->label('Basic Salary')
+                        TextInput::make('basic_salary')->label('Gaji Pokok')
                             ->readOnly()
                             ->dehydrated(false)
                             ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->required(),
                     ]),
                     
-                Section::make('Employee Information')
+                Section::make('Informasi Karyawan')
                     ->schema([
-                        Select::make('employee_id')
-                            ->label('Employee')
+                        Select::make('employee_id')->label('Pilih Karyawan')
                             ->options(
                                 Employee::query()
                                     ->orderBy('full_name')
@@ -63,18 +60,16 @@ class EmployeeDeductionForm
                             })
                             ->required()
                             ->visibleOn('create'),
-                        TextInput::make('full_name')
-                            ->label('Employee')
+                        TextInput::make('full_name')->label('Nama Lengkap')
                             ->readOnly()
                             ->dehydrated(false)
                             ->required(),
-                        TextInput::make('nik')
-                            ->label('NIK')
+                        TextInput::make('nik')->label('NIK')
                             ->readOnly()
                             ->dehydrated(false)
                             ->required(),
                     ]),
-                Section::make('Deductions')
+                Section::make('Potongan')
                     ->schema([
                         CheckboxList::make('deductions')
                             ->relationship('deductions')

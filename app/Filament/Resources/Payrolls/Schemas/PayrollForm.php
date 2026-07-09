@@ -19,8 +19,7 @@ class PayrollForm
     {
         return $schema
             ->components([
-                Select::make('employee_id')
-                    ->label('Employee')
+                Select::make('employee_id')->label('Karyawan')
                     ->options(
                         Employee::query()
                             ->orderBy('full_name')
@@ -46,83 +45,73 @@ class PayrollForm
                     })
                     ->required(),
 
-                TextInput::make('position')
-                    ->label('Position')
+                TextInput::make('position')->label('Jabatan')
                     ->readOnly()
                     ->default('')
                     ->dehydrated(false)
                     ->required(),
 
-                Select::make('payroll_month')
-                    ->label('Payroll Month')
+                Select::make('payroll_month')->label('Bulan')
                     ->options(static::getMonthOptions())
                     ->default((int) now()->format('n'))
                     ->required(),
 
-                Select::make('payroll_year')
-                    ->label('Payroll Year')
+                Select::make('payroll_year')->label('Tahun')
                     ->options(static::getYearOptions())
                     ->default((int) now()->format('Y'))
                     ->required(),
 
-                Section::make('Allowances')
+                Section::make('Rincian Tunjangan Karyawan')
                     ->schema([
-                        CheckboxList::make('allowance_ids')
-                            ->label('Allowance')
+                        CheckboxList::make('allowance_ids')->label('Tunjangan')
                             ->options(app(PayrollCalculator::class)->getAllowanceOptions())
                             ->columns(1)
                             ->disabled()
                             ->dehydrated(false)
                             ->bulkToggleable(false),
 
-                        TextInput::make('total_allowance')
-                            ->label('Total Allowance')
+                        TextInput::make('total_allowance')->label('Total Tunjangan')
                             ->default(0)
                             ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),
 
-                Section::make('Deductions')
+                Section::make('Rincian Potongan Karyawan')
                     ->schema([
-                        CheckboxList::make('deduction_ids')
-                            ->label('Deduction')
+                        CheckboxList::make('deduction_ids')->label('Potongan')
                             ->options(app(PayrollCalculator::class)->getDeductionOptions())
                             ->columns(1)
                             ->disabled()
                             ->dehydrated(false)
                             ->bulkToggleable(false),
 
-                        TextInput::make('total_deduction')
-                            ->label('Total Deduction')
+                        TextInput::make('total_deduction')->label('Total Potongan')
                             ->default(0)
                             ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),
 
-                Section::make('Basic Salary')
+                Section::make('Gaji Pokok Karyawan')
                     ->schema([
-                        TextInput::make('basic_salary')
-                            ->label('Basic Salary')
+                        TextInput::make('basic_salary')->label('Gaji Pokok')
                             ->readOnly()
                             ->default(0)
                             ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->required(),
                     ]),
 
-                Section::make('Take Home Pay')
+                Section::make('Gaji Bersih Karyawan')
                     ->schema([
-                        TextInput::make('take_home_pay')
-                            ->label('Take Home Pay')
+                        TextInput::make('take_home_pay')->label('Gaji Bersih')
                             ->default(0)
                             ->formatStateUsing(fn (float | int | string | null $state): string => CurrencyFormatter::rupiah($state))
                             ->readOnly()
                             ->required(),
                     ]),
 
-                DateTimePicker::make('generated_at')
-                    ->label('Generated At')
+                DateTimePicker::make('generated_at')->label('Dibuat Pada')
                     ->default(now())
                     ->required()
                     ->hidden(),

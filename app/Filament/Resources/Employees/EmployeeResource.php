@@ -18,13 +18,13 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Employees';
+    protected static ?string $navigationLabel = 'Karyawan';
 
-    protected static ?string $modelLabel = 'Employee';
+    protected static ?string $modelLabel = 'Karyawan';
 
-    protected static ?string $pluralModelLabel = 'Employees';
+    protected static ?string $pluralModelLabel = 'Karyawan';
 
     protected static ?int $navigationSort = 1;
 

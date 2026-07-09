@@ -19,13 +19,13 @@ class EmployeeAllowanceResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Employee Allowances';
+    protected static ?string $navigationLabel = 'Tunjangan Karyawan';
 
-    protected static ?string $modelLabel = 'Employee Allowance';
+    protected static ?string $modelLabel = 'Tunjangan Karyawan';
 
-    protected static ?string $pluralModelLabel = 'Employee Allowances';
+    protected static ?string $pluralModelLabel = 'Tunjangan Karyawan';
 
     protected static ?int $navigationSort = 4;
 

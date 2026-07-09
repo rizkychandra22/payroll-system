@@ -16,16 +16,18 @@ class AllowancesTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Nama')
                     ->searchable(),
-                TextColumn::make('amount')
+                TextColumn::make('description')->label('Deskripsi')
+                    ->searchable(),
+                TextColumn::make('amount')->label('Jumlah')
                     ->state(fn ($record): string => CurrencyFormatter::rupiah($record->amount))
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diubah Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

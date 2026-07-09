@@ -18,13 +18,13 @@ class AllowanceResource extends Resource
 {
     protected static ?string $model = Allowance::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Allowances';
+    protected static ?string $navigationLabel = 'Tunjangan';
 
-    protected static ?string $modelLabel = 'Allowance';
+    protected static ?string $modelLabel = 'Tunjangan';
 
-    protected static ?string $pluralModelLabel = 'Allowances';
+    protected static ?string $pluralModelLabel = 'Tunjangan';
 
     protected static ?int $navigationSort = 2;
 
