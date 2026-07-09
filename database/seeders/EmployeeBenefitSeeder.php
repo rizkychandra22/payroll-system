@@ -11,42 +11,36 @@ class EmployeeBenefitSeeder extends Seeder
 {
     public function run(): void
     {
-        $meal = Allowance::where('name', 'Tunjangan Makan')->first();
-        $transport = Allowance::where('name', 'Tunjangan Transport')->first();
-        $communication = Allowance::where('name', 'Tunjangan Komunikasi')->first();
+        $allowances = Allowance::all();
+        $deductions = Deduction::all();
 
-        $bpjs = Deduction::where('name', 'BPJS')->first();
-        $tax = Deduction::where('name', 'Pajak')->first();
-        $absence = Deduction::where('name', 'Potongan Absen')->first();
+        if ($allowances->isEmpty() || $deductions->isEmpty()) {
+            return;
+        }
+
+        $allowanceIds = $allowances->pluck('id')->all();
+        $deductionIds = $deductions->pluck('id')->all();
 
         $employees = Employee::all();
 
         foreach ($employees as $employee) {
-            $employee->allowances()->syncWithoutDetaching([
-                $meal?->id,
-                $transport?->id,
-            ]);
+            $selectedAllowances = $this->pickRandomItems($allowanceIds, rand(1, min(3, count($allowanceIds))));
+            $selectedDeductions = $this->pickRandomItems($deductionIds, rand(1, min(2, count($deductionIds))));
 
-            $employee->deductions()->syncWithoutDetaching([
-                $bpjs?->id,
-            ]);
+            $employee->allowances()->syncWithoutDetaching($selectedAllowances);
+            $employee->deductions()->syncWithoutDetaching($selectedDeductions);
+        }
+    }
+
+    private function pickRandomItems(array $items, int $count): array
+    {
+        if ($count <= 0) {
+            return [];
         }
 
-        Employee::where('nik', 'EMP003')->first()?->allowances()->syncWithoutDetaching([
-            $communication?->id,
-        ]);
+        $shuffled = $items;
+        shuffle($shuffled);
 
-        Employee::where('nik', 'EMP004')->first()?->deductions()->syncWithoutDetaching([
-            $tax?->id,
-        ]);
-
-        Employee::where('nik', 'EMP005')->first()?->allowances()->syncWithoutDetaching([
-            $communication?->id,
-        ]);
-
-        Employee::where('nik', 'EMP005')->first()?->deductions()->syncWithoutDetaching([
-            $tax?->id,
-            $absence?->id,
-        ]);
+        return array_slice($shuffled, 0, $count);
     }
 }
