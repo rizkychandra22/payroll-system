@@ -281,20 +281,6 @@ Catatan:
 - Slip gaji dapat dibuka dalam format PDF satu halaman untuk data normal.
 - Halaman detail payroll menyesuaikan tampilan dark mode dan light mode.
 
-## Keterbatasan Saat Ini
-
-- Belum ada automated test khusus untuk fitur payroll, masih default test bawaan Laravel.
-- Export payroll massal selain PDF slip per karyawan belum disediakan.
-- Role dan permission multi-user belum diimplementasikan, masih menggunakan satu admin panel login.
-
-## Saran Pengembangan Lanjutan
-
-- Tambah validasi unik payroll per `employee_id + payroll_month + payroll_year` di level database.
-- Tambah filter riwayat payroll berdasarkan bulan, tahun, dan posisi.
-- Tambah export Excel untuk payroll history.
-- Tambah dashboard ringkasan payroll.
-- Tambah role dan permission untuk admin HR dan finance.
-
 ## Dokumen Tambahan
 
 - [PRD.md](./PRD.md)
