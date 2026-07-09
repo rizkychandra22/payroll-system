@@ -21,6 +21,10 @@ class PayrollsTable
                     ->description(fn (Payroll $record): ?string => $record->employee?->nik)
                     ->searchable(['employee.full_name', 'employee.nik'])
                     ->sortable(),
+                TextColumn::make('employee.position')
+                    ->label('Position')
+                    ->searchable(['employee.position'])
+                    ->sortable(),
                 TextColumn::make('payroll_month')
                     ->label('Payroll Month')
                     ->formatStateUsing(fn (int | string | null $state): ?string => static::getMonthLabel($state))

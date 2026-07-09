@@ -37,6 +37,7 @@ class PayrollCalculator
         $basicSalary = (float) ($employee?->basic_salary ?? 0);
 
         return [
+            'position' => $employee?->position ?? '',
             'basic_salary' => $basicSalary,
             'allowance_ids' => [],
             'deduction_ids' => [],

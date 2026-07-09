@@ -37,12 +37,20 @@ class PayrollForm
                         $defaults = app(PayrollCalculator::class)->getEmployeeDefaults($state);
 
                         $set('basic_salary', $defaults['basic_salary']);
+                        $set('position', $defaults['position']);
                         $set('allowance_ids', $defaults['allowance_ids']);
                         $set('deduction_ids', $defaults['deduction_ids']);
                         $set('total_allowance', $defaults['total_allowance']);
                         $set('total_deduction', $defaults['total_deduction']);
                         $set('take_home_pay', $defaults['take_home_pay']);
                     })
+                    ->required(),
+
+                TextInput::make('position')
+                    ->label('Position')
+                    ->readOnly()
+                    ->default('')
+                    ->dehydrated(false)
                     ->required(),
 
                 Select::make('payroll_month')
@@ -55,13 +63,6 @@ class PayrollForm
                     ->label('Payroll Year')
                     ->options(static::getYearOptions())
                     ->default((int) now()->format('Y'))
-                    ->required(),
-
-                TextInput::make('basic_salary')
-                    ->label('Basic Salary')
-                    ->prefix('Rp')
-                    ->readOnly()
-                    ->default(0)
                     ->required(),
 
                 Section::make('Allowances')
@@ -104,6 +105,16 @@ class PayrollForm
                             ->required(),
                     ]),
 
+                Section::make('Basic Salary')
+                    ->schema([
+                        TextInput::make('basic_salary')
+                            ->label('Basic Salary')
+                            ->prefix('Rp')
+                            ->readOnly()
+                            ->default(0)
+                            ->required(),
+                    ]),
+
                 Section::make('Take Home Pay')
                     ->schema([
                         TextInput::make('take_home_pay')
@@ -117,7 +128,8 @@ class PayrollForm
                 DateTimePicker::make('generated_at')
                     ->label('Generated At')
                     ->default(now())
-                    ->required(),
+                    ->required()
+                    ->hidden(),
             ]);
     }
 

@@ -26,6 +26,7 @@ class EditPayroll extends EditRecord
 
         return [
             ...$data,
+            'position' => $this->getRecord()->employee?->position ?? '',
             'allowance_ids' => $selectedBenefitIds['allowance_ids'],
             'deduction_ids' => $selectedBenefitIds['deduction_ids'],
         ];
