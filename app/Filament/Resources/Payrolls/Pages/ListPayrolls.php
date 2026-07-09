@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Payrolls\Pages;
 
 use App\Filament\Resources\Payrolls\PayrollResource;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,6 +15,9 @@ class ListPayrolls extends ListRecords
     {
         return [
             CreateAction::make(),
+            Action::make('generatePayroll')
+                ->label('Generate Payroll')
+                ->url(PayrollResource::getUrl('generate')),
         ];
     }
 }

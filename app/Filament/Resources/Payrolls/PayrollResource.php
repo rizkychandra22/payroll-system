@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Payrolls;
 
 use App\Filament\Resources\Payrolls\Pages\CreatePayroll;
 use App\Filament\Resources\Payrolls\Pages\EditPayroll;
+use App\Filament\Resources\Payrolls\Pages\GeneratePayroll;
 use App\Filament\Resources\Payrolls\Pages\ListPayrolls;
 use App\Filament\Resources\Payrolls\Schemas\PayrollForm;
 use App\Filament\Resources\Payrolls\Tables\PayrollsTable;
@@ -54,6 +55,7 @@ class PayrollResource extends Resource
         return [
             'index' => ListPayrolls::route('/'),
             'create' => CreatePayroll::route('/create'),
+            'generate' => GeneratePayroll::route('/generate'),
             'edit' => EditPayroll::route('/{record}/edit'),
         ];
     }

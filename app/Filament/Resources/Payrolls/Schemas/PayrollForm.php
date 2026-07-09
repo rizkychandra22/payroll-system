@@ -129,7 +129,7 @@ class PayrollForm
             ]);
     }
 
-    protected static function getMonthOptions(): array
+    public static function getMonthOptions(): array
     {
         return [
             1 => 'January',
@@ -147,7 +147,7 @@ class PayrollForm
         ];
     }
 
-    protected static function getYearOptions(): array
+    public static function getYearOptions(): array
     {
         $currentYear = (int) now()->format('Y');
         $years = range($currentYear - 2, $currentYear + 5);
